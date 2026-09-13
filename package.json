@@ -1,14 +1,84 @@
 {
-  "name": "niche-radar",
+  "name": "cartel-radar",
   "version": "1.0.0",
-  "private": true,
-  "type": "module",
-  "description": "Niche Radar — пошуковик ніш для YouTube з 30+ LLM-провайдерами",
-  "scripts": {
-    "start": "node server.mjs",
-    "dev": "node server.mjs --dev"
+  "description": "Cartel Radar — локальний пошук ніш на YouTube: реальні дані через yt-dlp або YouTube Data API, кратність до медіани, радар свіжих проривів.",
+  "license": "MIT",
+  "author": "YT CARTEL",
+  "homepage": "https://gitkalenyuk.github.io/cartel-radar/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gitkalenyuk/cartel-radar.git"
   },
+  "type": "module",
+  "main": "desktop/electron/main.js",
   "engines": {
     "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node lib/analytics.test.mjs",
+    "electron": "electron .",
+    "fetch:ytdlp": "bash scripts/fetch-ytdlp.sh",
+    "build:portable-win": "bash desktop/windows/build-portable.sh",
+    "dist:mac": "electron-builder --mac --publish never",
+    "dist:win": "electron-builder --win --publish never",
+    "dist:linux": "electron-builder --linux --publish never"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0"
+  },
+  "build": {
+    "appId": "com.ytcartel.cartelradar",
+    "productName": "Cartel Radar",
+    "copyright": "MIT © YT CARTEL",
+    "files": [
+      "server.mjs",
+      "lib/**/*",
+      "public/**/*",
+      "docs/**/*",
+      "desktop/electron/**/*",
+      "package.json",
+      "!**/*.test.mjs"
+    ],
+    "extraResources": [
+      {
+        "from": "bin",
+        "to": "bin",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "directories": {
+      "output": "dist",
+      "buildResources": "assets"
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.productivity",
+      "icon": "assets/icon.icns"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "assets/icon.icns"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Utility"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    }
   }
 }
