@@ -6,6 +6,9 @@ on:
     tags: ["v*"]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: ${{ matrix.os }}
@@ -77,3 +80,17 @@ jobs:
             dist/*.exe
             dist/*.AppImage
           if-no-files-found: warn
+
+      # Готові інсталятори одразу їдуть у реліз — без ручного завантаження
+      # артефактів із раннера. Спрацьовує лише на тег (v1.0.1 і далі).
+      - name: Прикріпити до релізу
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: |
+            dist/*.dmg
+            dist/*.zip
+            dist/*.exe
+            dist/*.AppImage
+          fail_on_unmatched_files: false
