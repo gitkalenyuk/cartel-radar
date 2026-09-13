@@ -8,6 +8,7 @@ import { initPipeline, renderPipeline, renderHistory } from "./pipeline.js";
 import { initProviders, renderProviders } from "./providers.js";
 import { initRadar, renderRadarResults } from "./radar.js";
 import { initSettings } from "./settings.js";
+import { initUpdates, renderUpdates } from "./updates.js";
 
 const VIEWS = {
   dashboard: renderDashboard,
@@ -20,6 +21,7 @@ const VIEWS = {
   pipeline: renderPipeline,
   history: renderHistory,
   providers: renderProviders,
+  updates: renderUpdates,
   settings: () => {},
 };
 
@@ -106,6 +108,7 @@ async function boot() {
   initProviders();
   initRadar();
   initSettings();
+  initUpdates();
   refreshProviderSelects(); // списки провайдерів + підказки моделей (після initSettings, щоб покрити й матрицю маршрутів)
   renderProviders();
   await Promise.all([refreshNiches(), loadRuns()]);

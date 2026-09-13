@@ -13,6 +13,7 @@ import { quotaState } from "./lib/youtube.mjs";
 import * as REALS from "./lib/realsource.mjs";
 import * as YD from "./lib/ytdlp.mjs";
 import * as AN from "./lib/analytics.mjs";
+import * as MOD from "./lib/modules.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.join(__dirname, "public");
@@ -226,6 +227,37 @@ export function createServer() {
         }
       }
 
+      // ── модульні оновлення ──────────────────────────────────────────────
+      // Застосунок складається з модулів, і кожен можна оновити окремо, не
+      // перевстановлюючи програму на 100 МБ.
+      if (p === "/api/update/check" && (req.method === "GET" || req.method === "POST")) {
+        try { return send(res, 200, await MOD.checkUpdates()); }
+        catch (e) { return send(res, 200, { ok: false, error: String(e.message || e) }); }
+      }
+
+      if (p === "/api/update/apply" && req.method === "POST") {
+        try {
+          const body = await readBody(req);
+          if (body?.all) {
+            // «оновити все застаріле» — самі рахуємо, що саме застаріло
+            const st = await MOD.checkUpdates();
+            const files = st.groups.flatMap((g) => g.files.filter((f) => f.status !== "current").map((f) => f.file));
+            const out = await MOD.applyUpdates(files, { tag: st.release.tag });
+            console.log(`  оновлено модулів: ${out.updated} (з ${files.length})`);
+            return send(res, 200, out);
+          }
+          const out = await MOD.applyUpdates(body?.files, { tag: body?.tag });
+          console.log(`  оновлено модулів: ${out.updated} (з ${(body?.files || []).length})`);
+          return send(res, 200, out);
+        } catch (e) {
+          return send(res, 200, { ok: false, error: String(e.message || e) });
+        }
+      }
+
+      if (p === "/api/update/state" && req.method === "GET") {
+        return send(res, 200, { ok: true, state: await MOD.readUpdateState(), writable: await MOD.appDirWritable() });
+      }
+
       if (p === "/api/sources/update" && req.method === "POST") {
         try { return send(res, 200, await YD.selfUpdate()); }
         catch (e) { return send(res, 200, { ok: false, error: String(e.message || e) }); }
@@ -389,6 +421,20 @@ export function createServer() {
           const data = await fs.readFile(docPath);
           return send(res, 200, data, MIME[path.extname(docPath)] || "application/octet-stream");
         } catch { return sendErr(res, 404, "Сторінку довідки не знайдено"); }
+      }
+      const relPublic = p === "/" ? "index.html" : decoded.replace(/^\/+/, "");
+      // Спершу дивимось в оновлені модулі: якщо застосунок стоїть там, де писати
+      // не можна, оновлення лягають у теку даних і мають пріоритет.
+      for (const candidate of [path.join(MOD.overlayDir(), "public", relPublic), path.join(PUBLIC, relPublic)]) {
+        const safe = path.resolve(candidate);
+        if (!safe.startsWith(path.resolve(MOD.overlayDir())) && !safe.startsWith(PUBLIC)) continue;
+        try {
+          let target = safe;
+          const stat = await fs.stat(target);
+          if (stat.isDirectory()) target = path.join(target, "index.html");
+          const data = await fs.readFile(target);
+          return send(res, 200, data, MIME[path.extname(target)] || "application/octet-stream");
+        } catch { /* пробуємо наступний варіант */ }
       }
       let filePath = path.join(PUBLIC, p === "/" ? "index.html" : decoded);
       if (!filePath.startsWith(PUBLIC)) return sendErr(res, 403, "Заборонено");

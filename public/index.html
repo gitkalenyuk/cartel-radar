@@ -31,6 +31,7 @@
       <div class="nav-sep">Система</div>
       <div class="nav-item" data-view="providers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="4"/></svg><span>Провайдери</span></div>
       <a class="nav-item" id="navInfo" href="/docs/index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>Інфо та довідка</span></a>
+      <div class="nav-item" data-view="updates"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></svg><span>Оновлення</span></div>
       <div class="nav-item" data-view="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2 2 2 0 1 1-4 0 1.7 1.7 0 0 0-2.9-1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 3 15a2 2 0 1 1 0-4 1.7 1.7 0 0 0 1.2-2.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 10 4.2a2 2 0 1 1 4 0 1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1A1.7 1.7 0 0 0 21 11a2 2 0 1 1 0 4z"/></svg><span>Налаштування</span></div>
     </nav>
     <div class="side-foot">
@@ -319,6 +320,40 @@
         <button class="btn btn-danger btn-sm" id="btnClearNiches">Очистити пайплайн</button></div>
       </div>
       <div class="row" style="margin-top:18px"><button class="btn-primary" id="btnSaveSettings">Зберегти налаштування</button><span class="muted" id="settingsStatus"></span></div>
+    </section>
+
+    <section class="view" id="view-updates">
+      <h1>Оновлення</h1>
+      <p class="sub">Застосунок зібрано з модулів — інтерфейс, логіка, сервер, довідка. Кожен можна оновити окремо, не перевстановлюючи програму: виправлення в інтерфейсі важить кілобайти замість 100 МБ інсталятора. Оновлення беруться з відкритого репозиторію, кожен файл звіряється з хешем, старі версії зберігаються в резервній копії.</p>
+
+      <div class="grid g2">
+        <div class="card">
+          <h2>Стан версії</h2>
+          <div id="updVersion" class="muted">ще не перевіряв</div>
+          <div id="updRelease" class="muted tiny" style="margin-top:8px"></div>
+          <div id="updWhere" class="upd-note" style="display:none"></div>
+          <div class="row" style="margin-top:16px;gap:10px;flex-wrap:wrap">
+            <button class="btn" id="btnUpdCheck">Перевірити оновлення</button>
+            <button class="btn btn-primary" id="btnUpdAll">Оновити все застаріле</button>
+            <button class="btn" id="btnUpdSelected" style="display:none">Оновити вибране</button>
+            <button class="btn" id="btnUpdReload" style="display:none">Перезавантажити вікно</button>
+          </div>
+          <div id="updStatus" class="muted" style="margin-top:12px"></div>
+        </div>
+        <div class="card">
+          <h2>Що це дає</h2>
+          <div class="upd-why">
+            <p><b>Швидко.</b> Повний інсталятор — понад 100 МБ. Оновлення модуля — кілобайти.</p>
+            <p><b>Безпечно.</b> Кожен файл звіряється з хешем із переліку в репозиторії. Якщо вміст не збігається — оновлення скасовується.</p>
+            <p><b>З відкатом.</b> Перед заміною старі версії файлів копіюються в теку даних, тож завжди можна повернутися.</p>
+            <p><b>Точково.</b> Можна оновити лише інтерфейс, лише логіку або лише довідку — решта залишиться як була.</p>
+            <p class="tiny muted">Дані користувача — ключі, історія, ніші — не чіпаються взагалі.</p>
+          </div>
+        </div>
+      </div>
+
+      <h2 style="margin-top:22px">Модулі</h2>
+      <div id="updGroups" class="upd-groups"><div class="muted">Натисніть «Перевірити оновлення».</div></div>
     </section>
   </main>
 </div>

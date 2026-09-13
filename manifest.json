@@ -1,0 +1,159 @@
+{
+  "name": "cartel-radar",
+  "version": "1.1.0",
+  "generatedAt": "2026-09-13T14:40:22.718Z",
+  "files": {
+    "docs/assets/screenshot-dashboard.png": {
+      "hash": "ea83da58dfd838766190f124a5e489136cf8268c5774a4f0a67eaf3651b2f0f1",
+      "size": 1679404
+    },
+    "docs/assets/screenshot-radar.png": {
+      "hash": "b7c2287b70a860981b9c5f08995e9f09a3fa8660a344be25106770d470d3aefe",
+      "size": 504660
+    },
+    "docs/assets/screenshot-settings.png": {
+      "hash": "130b7a6350dde11fcd88b413a325015fd1685fc69ad530d2cccaa54065cfad0a",
+      "size": 1412615
+    },
+    "docs/assets/style.css": {
+      "hash": "0a19c4e3065e56a755739406aa0bf387cefb97f605bf9e3e15094dd84dba57ed",
+      "size": 4735
+    },
+    "docs/index.html": {
+      "hash": "41d082e845b2f84e21d811226138360602803ca6b7ee2d7117a8ff7de73d3925",
+      "size": 9800
+    },
+    "docs/install.html": {
+      "hash": "3f34e500188d7468b389d77cac1fed318266e8b04f3a46b798c1b90cfa308fe0",
+      "size": 7024
+    },
+    "docs/methodology.html": {
+      "hash": "5b821a5fa883fc22a30692334b9228ff54d9f9e022d2694673c31e971a84f856",
+      "size": 9937
+    },
+    "docs/providers.html": {
+      "hash": "567ebcbbb847a12f2d860118e68d6b66dab82d5fcd55655a977c3219d99637ff",
+      "size": 8318
+    },
+    "docs/youtube.html": {
+      "hash": "d8465522e1c156b0e114467ff162c7d144be1fbd9e6435830ecc3244512a0b77",
+      "size": 7342
+    },
+    "lib/analytics.mjs": {
+      "hash": "2ed40ece288bc75d24f66208d0dcad8bc10cb28e939ed84da757a5348b1a7c8b",
+      "size": 20346
+    },
+    "lib/config.mjs": {
+      "hash": "2a17cabc2f27bb5ab76dee15529e15c68c53db629e8bd0c10a424827d22bb36e",
+      "size": 8353
+    },
+    "lib/engine.mjs": {
+      "hash": "74e3b6dd31ee9a9617b8049d2ae9b4e20973e3030cf43e0d84e6314cd8323cf1",
+      "size": 23895
+    },
+    "lib/jobs.mjs": {
+      "hash": "653348ea68baff308260980f9985ff00b483a95a27d9ffceb47993494d4c24ff",
+      "size": 4970
+    },
+    "lib/llm.mjs": {
+      "hash": "eb6ceb90e601a2a086847ba68a004d9fb65d75e936424bd724b56f493962f535",
+      "size": 15869
+    },
+    "lib/mock.mjs": {
+      "hash": "5c1283e12ed998ae869c7240058067bd1566907b7f8f1aa5ba9e8d209adb4154",
+      "size": 18971
+    },
+    "lib/modules.mjs": {
+      "hash": "b63d081b1916bf745e455c481e1f4a5d3ff0f11b53c972628d37ef75d09b9f66",
+      "size": 12024
+    },
+    "lib/presets.mjs": {
+      "hash": "8938c3c3c64e15c0b37c61a1bc3003ec49957c2d925ed5ee6838ff10a11ce32c",
+      "size": 20742
+    },
+    "lib/prompts.mjs": {
+      "hash": "9e9a38329d36ae491a51cedb2655b7447b3a6515831b84cc549baabc95aed2c7",
+      "size": 17150
+    },
+    "lib/providers.mjs": {
+      "hash": "b8be71aa8f521a74ed5b079f60d8deb060fad9a3144a053ca5824a6001b73297",
+      "size": 14576
+    },
+    "lib/realsource.mjs": {
+      "hash": "cf850bc4dac0ce0c05206056948e4a1b4ffa459f64691634cde655ce1c9b287b",
+      "size": 18553
+    },
+    "lib/store.mjs": {
+      "hash": "09eb1f9c580baa303af7dc506cb48cf9a25c40e2910ef723cc6302e036462d91",
+      "size": 7130
+    },
+    "lib/youtube.mjs": {
+      "hash": "e99144d7f2c35b6ccd5b62dfabaf4e1343d9f0ef225d7733fa6a14fcc79b7f44",
+      "size": 12726
+    },
+    "lib/ytdlp.mjs": {
+      "hash": "4ff84122aa0c91510c826f742ccaf674d29b789ebc5f938d85bbc66aa354dea6",
+      "size": 25419
+    },
+    "public/analysis.js": {
+      "hash": "549fc27a626c5c0f8c39572845810b9c71875ed55d3eef7633f6cbd37df04c99",
+      "size": 17843
+    },
+    "public/app.js": {
+      "hash": "efc682c0d381fa17ba06a40e838cf2acaf8c617d31e53a5e40c0c8402737b54e",
+      "size": 8331
+    },
+    "public/core.js": {
+      "hash": "1a5b961aa4e0fb3222188fada96efc9a06f0f9bc41b554b57f5e0546ae44c42a",
+      "size": 7372
+    },
+    "public/data/markets.js": {
+      "hash": "f72af1fa2b1a729c6982346d21015417390a5bd3e232655607318a5c56885f21",
+      "size": 3811
+    },
+    "public/detail.js": {
+      "hash": "d63388a30987ae4e3df6a70f7e232c8638110813f17448883b769fed58204c7d",
+      "size": 5637
+    },
+    "public/hunt.js": {
+      "hash": "5cfd29b6fb7fbe4da951bf3f6d43543cc4eea2454078bcd03af9fece2da215cf",
+      "size": 14669
+    },
+    "public/index.html": {
+      "hash": "2a8e7cb8e7a1836d89a4e3d4815fd871f2f25ebe068293a108dd004765abf908",
+      "size": 31452
+    },
+    "public/pipeline.js": {
+      "hash": "629c768ebe3677dad19032f5bae15b9c3cf90e585e96cd8fb0f66f75c6b7bb04",
+      "size": 5326
+    },
+    "public/providers.js": {
+      "hash": "dcb3b1476f37ab35ab3d124d392f5bebba4df62d3501875f450a798d60701a14",
+      "size": 17662
+    },
+    "public/radar.js": {
+      "hash": "6b705f4351bb2e9b9081ff446735671c75e7c9a3f17e74c1f0e49b91f5dec77b",
+      "size": 12875
+    },
+    "public/settings.js": {
+      "hash": "3dc340017619a8d6cd23c3caff5b5d1e7df6897ef33c83e94f9835d1e73c74d0",
+      "size": 16327
+    },
+    "public/styles.css": {
+      "hash": "2debb5919b431e883cbe75bc8afa20908dab47c00a63151814f6f108aa4a3e0b",
+      "size": 21111
+    },
+    "public/ui.js": {
+      "hash": "7b7b51dd1d844c04da817e32d79881f741e54614853e58da2a18e8950b441e00",
+      "size": 7583
+    },
+    "public/updates.js": {
+      "hash": "bcfd887ba7d4155fc0eb6b1f3af80c69cd4e359a5dbe90e8d8f94225bbf03d7d",
+      "size": 8045
+    },
+    "server.mjs": {
+      "hash": "552ad8fca940986e82c58c7a5c7c4d8c6483f7426555458add4f8ed74769d4a7",
+      "size": 31367
+    }
+  }
+}
