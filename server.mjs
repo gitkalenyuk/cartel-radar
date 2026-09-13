@@ -19,6 +19,14 @@ const PUBLIC = path.join(__dirname, "public");
 const DOCS = path.join(__dirname, "docs");
 const HOST = "127.0.0.1";
 
+// Версію беремо з package.json, а не пишемо руками: інакше вона розходиться
+// з тим, що фактично зібрано (саме так і сталося між 1.0.0 і 1.0.1).
+const VERSION = await (async () => {
+  try {
+    return JSON.parse(await fs.readFile(path.join(__dirname, "package.json"), "utf8")).version || "0.0.0";
+  } catch { return "0.0.0"; }
+})();
+
 const MIME = {
   ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".mjs": "text/javascript; charset=utf-8",
   ".css": "text/css; charset=utf-8", ".json": "application/json; charset=utf-8", ".svg": "image/svg+xml",
@@ -66,7 +74,7 @@ export function createServer() {
       if (!["127.0.0.1", "localhost", "::1", "[::1]"].includes(host)) return sendErr(res, 403, "Доступ лише з локального хоста");
 
       // ---------------- API ----------------
-      if (p === "/api/health") return send(res, 200, { ok: true, name: "Cartel Radar", version: "1.0.0", pid: process.pid, uptime: Math.round(process.uptime()) });
+      if (p === "/api/health") return send(res, 200, { ok: true, name: "Cartel Radar", version: VERSION, pid: process.pid, uptime: Math.round(process.uptime()) });
 
       if (p === "/api/config" && req.method === "GET") return send(res, 200, { config: await loadConfig(), presets: PROVIDER_PRESETS });
       if (p === "/api/config" && req.method === "POST") {
