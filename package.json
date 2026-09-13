@@ -37,9 +37,10 @@
       "lib/**/*",
       "public/**/*",
       "docs/**/*",
-      "desktop/electron/**/*",
+      "desktop/**/*",
       "package.json",
-      "!**/*.test.mjs"
+      "!**/*.test.mjs",
+      "!dist/**"
     ],
     "extraResources": [
       {
@@ -67,18 +68,20 @@
         "nsis",
         "portable"
       ],
-      "icon": "assets/icon.icns"
+      "icon": "assets/icon.png"
     },
     "linux": {
       "target": [
         "AppImage"
       ],
-      "category": "Utility"
+      "category": "Utility",
+      "icon": "assets/icon.png"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true
-    }
+    },
+    "asar": false
   }
 }
