@@ -1,0 +1,78 @@
+name: Збірка застосунку
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            artifact: macos
+          - os: windows-latest
+            artifact: windows
+          - os: ubuntu-latest
+            artifact: linux
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Самоперевірка аналітики
+        run: node lib/analytics.test.mjs
+
+      - name: Завантажити yt-dlp
+        shell: bash
+        run: |
+          mkdir -p bin
+          if [ "${{ matrix.artifact }}" = "windows" ]; then
+            curl -fL -o bin/yt-dlp.exe https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe
+          elif [ "${{ matrix.artifact }}" = "macos" ]; then
+            curl -fL -o bin/yt-dlp https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_macos
+            chmod +x bin/yt-dlp
+          else
+            curl -fL -o bin/yt-dlp https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
+            chmod +x bin/yt-dlp
+          fi
+
+      - name: Встановити залежності збірки
+        run: npm install --no-audit --no-fund
+
+      - name: Зібрати (macOS)
+        if: matrix.artifact == 'macos'
+        run: npx electron-builder --mac --publish never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+
+      - name: Зібрати (Windows)
+        if: matrix.artifact == 'windows'
+        run: npx electron-builder --win --publish never
+
+      - name: Зібрати (Linux)
+        if: matrix.artifact == 'linux'
+        run: npx electron-builder --linux --publish never
+
+      - name: Портативна версія для Windows
+        if: matrix.artifact == 'windows'
+        shell: bash
+        run: bash desktop/windows/build-portable.sh
+
+      - name: Завантажити результати
+        uses: actions/upload-artifact@v4
+        with:
+          name: cartel-radar-${{ matrix.artifact }}
+          path: |
+            dist/*.dmg
+            dist/*.zip
+            dist/*.exe
+            dist/*.AppImage
+          if-no-files-found: warn
