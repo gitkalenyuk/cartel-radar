@@ -1,0 +1,11 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+data/
+.env
+package-lock.json
+
+# бінарники yt-dlp (тягнуться скриптом, не зберігаються в git)
+bin/yt-dlp
+bin/yt-dlp.exe

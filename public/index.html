@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cartel Radar — пошук ніш для YouTube</title>
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23070b12'/><circle cx='16' cy='16' r='9' fill='none' stroke='%23b6ff3d' stroke-width='1.5'/><circle cx='16' cy='16' r='4' fill='none' stroke='%2322d3ee' stroke-width='1.5'/><circle cx='16' cy='16' r='1.8' fill='%23b6ff3d'/></svg>">
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="brand">
+      <div class="logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b6ff3d" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.2" fill="#b6ff3d"/></svg>
+      </div>
+      <div><b>Cartel Radar</b><span>пошук ніш</span></div>
+    </div>
+    <nav id="nav">
+      <div class="nav-item active" data-view="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="10" width="7" height="11" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/></svg><span>Дашборд</span></div>
+      <div class="nav-item" data-view="hunt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-5.4-7-11a7 7 0 1 1 14 0c0 5.6-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg><span>Полювання</span></div>
+      <div class="nav-item" data-view="ranking"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Ранжування</span></div>
+      <div class="nav-sep">Аналіз</div>
+      <div class="nav-item" data-view="channel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 5 3-5 3z"/></svg><span>Аналіз каналу</span></div>
+      <div class="nav-item" data-view="gap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Gap-сканер</span></div>
+      <div class="nav-item" data-view="radar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="2.2"/><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6.5a5.5 5.5 0 1 1-5.5 5.5"/><path d="M14.8 9.2 20 4"/></svg><span>Радар ніш</span></div>
+      <div class="nav-item" data-view="video"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16v16H4z"/><path d="M9 9h6v6H9z"/></svg><span>Відео-лаб</span></div>
+      <div class="nav-sep">Робота</div>
+      <div class="nav-item" data-view="pipeline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="5" height="18" rx="2"/><rect x="10" y="3" width="5" height="12" rx="2"/><rect x="17" y="3" width="5" height="8" rx="2"/></svg><span>Пайплайн</span></div>
+      <div class="nav-item" data-view="history"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg><span>Історія</span></div>
+      <div class="nav-sep">Система</div>
+      <div class="nav-item" data-view="providers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="4"/></svg><span>Провайдери</span></div>
+      <a class="nav-item" id="navInfo" href="/docs/index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>Інфо та довідка</span></a>
+      <div class="nav-item" data-view="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2 2 2 0 1 1-4 0 1.7 1.7 0 0 0-2.9-1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 3 15a2 2 0 1 1 0-4 1.7 1.7 0 0 0 1.2-2.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 10 4.2a2 2 0 1 1 4 0 1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1A1.7 1.7 0 0 0 21 11a2 2 0 1 1 0 4z"/></svg><span>Налаштування</span></div>
+    </nav>
+    <div class="side-foot">
+      <div class="community">
+        <div class="community-head">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.2 9.2 0 0 1-3.3-.6L3 21l1.7-5a8.2 8.2 0 0 1-.7-3.4 8.4 8.4 0 0 1 8.5-8.3 8.4 8.4 0 0 1 8.5 7.2z"/></svg>
+          <span>Спільнота YT CARTEL</span>
+        </div>
+        <a class="community-link" href="https://t.me/+e_g6IwDlVhg4OGJi" target="_blank" rel="noopener">
+          <b>Група</b><span>зайти в групу →</span>
+        </a>
+        <a class="community-link" href="https://t.me/YT_cartell/242" target="_blank" rel="noopener">
+          <b>Чат</b><span>обговорити в чаті →</span>
+        </a>
+      </div>
+      <div class="pill"><span class="dot" id="statusDot"></span><span id="statusText">перевіряю…</span></div>
+      <div class="pill" id="quotaPill" title="Денна квота YouTube Data API">YT: —</div>
+      <button class="btn-danger btn-sm" id="btnShutdown" style="width:100%">Вимкнути сервер</button>
+    </div>
+  </aside>
+
+  <main>
+    <!-- ================= ДАШБОРД ================= -->
+    <section class="view active" id="view-dashboard">
+      <div class="hero">
+        <svg class="rings" viewBox="0 0 300 300" fill="none" stroke="rgba(182,255,61,.35)">
+          <circle cx="150" cy="150" r="140" stroke-width="1"/><circle cx="150" cy="150" r="105" stroke-width="1" stroke="rgba(34,211,238,.35)"/>
+          <circle cx="150" cy="150" r="70" stroke-width="1" stroke="rgba(124,92,255,.4)"/><circle cx="150" cy="150" r="35" stroke-width="1" stroke="rgba(255,255,255,.25)"/>
+          <circle cx="205" cy="95" r="4" fill="#b6ff3d" stroke="none"/><circle cx="98" cy="196" r="3" fill="#22d3ee" stroke="none"/>
+        </svg>
+        <h1>Знайди нішу, яку ще ніхто не зайняв</h1>
+        <p class="sub">Мультиагентний радар: паралельно сканує ринки усіма мовами, оцінює попит і конкуренцію, перевіряє реальними даними YouTube і віддає готове досьє з 30 ідеями відео.</p>
+        <div class="row">
+          <button class="btn-primary btn-lg" data-goto="hunt">Запустити полювання</button>
+          <button class="btn btn-lg" data-goto="providers">Налаштувати провайдерів</button>
+        </div>
+      </div>
+      <div class="grid g4" id="dashStats"></div>
+      <div class="split" style="margin-top:18px">
+        <div class="card"><h2>Останні запуски</h2><div id="dashRuns" class="grid" style="gap:9px"></div></div>
+        <div class="card"><h2>Найкращі збережені ніші</h2><div id="dashNiches" class="grid" style="gap:9px"></div></div>
+      </div>
+    </section>
+
+    <!-- ================= ПОЛЮВАННЯ ================= -->
+    <section class="view" id="view-hunt">
+      <h1>Полювання на ніші</h1>
+      <p class="sub">Опишіть напрямки (або залиште порожнім для автопошуку), виберіть ринки й персон-агентів — решта паралельно.</p>
+      <div class="grid g2">
+        <div class="card">
+          <h2>1 · Що шукаємо</h2>
+          <div class="field"><label>Сіди / напрямки (через кому або з нового рядка)</label><textarea id="huntSeeds" placeholder="напр.: фінанси для самозайнятих, AI-інструменти, здоров'я офісних працівників"></textarea></div>
+          <div class="field"><label>Мови ринку</label><div class="chips" id="huntLangs"></div></div>
+          <div class="field"><label>Країни ринку</label><div class="chips" id="huntRegions"></div>
+            <div class="row" style="margin-top:8px"><button class="btn-sm" id="btnAllRegions">Усі країни</button><button class="btn-sm" id="btnTopRegions">Топ-ринки</button><button class="btn-sm" id="btnClearRegions">Очистити</button></div>
+          </div>
+          <div class="field"><label>Мова, якою писати результат</label><select id="huntOutputLang"></select></div>
+        </div>
+        <div class="card">
+          <h2>2 · Хто шукає (персони-агенти)</h2>
+          <div class="grid" id="huntPersonas" style="gap:9px"></div>
+          <div class="field" style="margin-top:14px"><label>Модель для полювання (перевизначити)</label>
+            <div class="row"><select id="huntProvider" style="flex:2"></select><input id="huntModel" placeholder="модель (необов'язково)" style="flex:2"></div>
+          </div>
+          <div class="grid g2" style="gap:12px">
+            <div><label>Кандидатів у роботі: <b id="lblCount">90</b></label><input type="range" id="huntCount" min="10" max="300" step="10" value="90"></div>
+            <div><label>Глибоких досьє: <b id="lblDeep">6</b></label><input type="range" id="huntDeep" min="1" max="20" step="1" value="6"></div>
+            <div><label>Паралельність: <b id="lblConc">6</b></label><input type="range" id="huntConc" min="1" max="16" step="1" value="6"></div>
+            <div><label>Перевірок YouTube: <b id="lblReal">24</b></label><input type="range" id="huntReal" min="0" max="40" step="1" value="24"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="margin:18px 0">
+        <button class="btn-primary btn-lg" id="btnHunt">Почати полювання</button>
+        <button class="btn" id="btnCancel" style="display:none">Скасувати</button>
+        <span class="muted" id="huntStatus"></span>
+      </div>
+      <div id="huntRun" style="display:none">
+        <div class="steps" id="huntSteps"></div>
+        <div class="split">
+          <div class="card"><h2>Живий потік</h2><div class="console" id="huntConsole"></div>
+            <div class="row" style="margin-top:12px"><span class="pill" id="statCost">$0.0000</span><span class="pill" id="statCalls">0 викликів</span><span class="pill" id="statTokens">0 токенів</span></div>
+          </div>
+          <div class="card"><h2>Кандидати в реальному часі</h2><div class="grid" id="huntStream" style="gap:8px;max-height:300px;overflow-y:auto"></div></div>
+        </div>
+        <h2 style="margin-top:22px">Підсумок запуску</h2><div class="card" id="huntSummary"></div>
+      </div>
+    </section>
+
+    <!-- ================= РАНЖУВАННЯ ================= -->
+    <section class="view" id="view-ranking">
+      <h1>Ранжування ніш</h1>
+      <p class="sub">Результат останнього полювання. Клік по картці — повне досьє.</p>
+      <div class="row" style="margin-bottom:14px">
+        <select id="rankSort" style="max-width:220px">
+          <option value="score">За загальною оцінкою</option>
+          <option value="riskAdjusted">З поправкою на впевненість</option>
+          <option value="rpmEstimateUsd">За RPM</option>
+          <option value="demandScore">За попитом</option>
+          <option value="competitionScore">За найменшою конкуренцією</option>
+        </select>
+        <input id="rankFilter" placeholder="Фільтр за назвою / ключовим словом" style="max-width:300px">
+        <button class="btn-sm" id="btnSaveAll">Додати всі в пайплайн</button>
+        <span class="muted" id="rankCount"></span>
+      </div>
+      <div class="grid g2" id="rankList"></div>
+    </section>
+
+    <!-- ================= КАНАЛ ================= -->
+    <section class="view" id="view-channel">
+      <h1>Аналіз каналу</h1>
+      <p class="sub">Вставте @handle, посилання або ID каналу. З ключем YouTube API — реальні цифри, без нього — експертний аналіз моделі.</p>
+      <div class="card" style="margin-bottom:16px">
+        <div class="row"><input id="chInput" placeholder="@handle або https://youtube.com/@channel" style="flex:3">
+          <select id="chProvider" style="flex:1.2"></select>
+          <input id="chModel" style="flex:1" placeholder="модель (необовʼязково)">
+          <button class="btn-primary" id="btnChannel">Аналізувати</button></div>
+      </div>
+      <div id="chResult" class="grid" style="gap:16px"></div>
+
+      <div class="card" style="margin:22px 0 16px">
+        <h2>Прев'ю-лаб (vision)</h2>
+        <p class="muted" style="margin:0 0 12px">Vision-модель подивиться на реальні прев'ю найпопулярніших відео каналу або ніші й скаже, що працює, що слабко і які концепти зробити вам. Потрібен ключ YouTube Data API і модель із підтримкою зображень (Налаштування → маршрут «Прев'ю / vision»).</p>
+        <div class="row"><input id="thInput" placeholder="@handle каналу або ніша (напр. «сонячні панелі для дому»)" style="flex:3">
+          <select id="thProvider" style="flex:1.2"></select>
+          <input id="thModel" style="flex:1" placeholder="модель (необовʼязково)">
+          <button class="btn-primary" id="btnThumbs">Аналізувати прев'ю</button></div>
+      </div>
+      <div id="thResult" class="grid" style="gap:16px"></div>
+    </section>
+
+    <!-- ================= GAP ================= -->
+    <section class="view" id="view-gap">
+      <h1>Gap-сканер ключових запитів</h1>
+      <p class="sub">Три агенти паралельно розкладають тему на кластери довгого хвоста й оцінюють попит проти конкуренції.</p>
+      <div class="card" style="margin-bottom:16px">
+        <div class="row"><input id="gapSeed" placeholder="напр.: сонячні панелі для дому" style="flex:3">
+          <select id="gapProvider" style="flex:1.2"></select>
+          <input id="gapModel" style="flex:1" placeholder="модель (необовʼязково)">
+          <button class="btn-primary" id="btnGap">Сканувати</button></div>
+      </div>
+      <div id="gapResult" class="grid" style="gap:16px"></div>
+    </section>
+
+    <!-- ================= РАДАР НІШ ================= -->
+    <section class="view" id="view-radar">
+      <h1>Радар ніш</h1>
+      <p class="sub">Шукає не гігантів, а <b>свіжі прориви</b>: молоді канали, які щойно пробилися в ніші. Саме там народжуються нові ніші з низькою конкуренцією. Дані беруться локально через yt-dlp — без ключа й без квоти.</p>
+      <div class="grid g2">
+        <div class="card">
+          <h2>Що шукаємо</h2>
+          <div class="field"><label>Ніша, ключові слова або канал-орієнтир</label>
+            <input id="rdQuery" placeholder="наприклад: сонячні панелі для дому, або https://youtube.com/@channel">
+          </div>
+          <div class="field"><label>Свої пошукові запити (необов'язково, через кому)</label>
+            <textarea id="rdQueries" rows="3" placeholder="порожньо — запити згенеруються автоматично з ключових слів"></textarea>
+          </div>
+          <div class="grid g3" style="gap:10px">
+            <div class="field"><label>Вік відео, днів</label><input id="rdAge" type="number" value="365" min="7" max="3650"></div>
+            <div class="field"><label>Підписників від</label><input id="rdMinSubs" type="number" value="5000" min="0"></div>
+            <div class="field"><label>Підписників до</label><input id="rdMaxSubs" type="number" value="75000" min="1000"></div>
+          </div>
+          <div class="field"><label>Глибина пошуку на запит</label><input id="rdPerQuery" type="number" value="12" min="5" max="30"></div>
+          <div class="row" style="margin-top:14px">
+            <button class="btn-primary" id="btnRadarRun">Запустити радар</button>
+          </div>
+          <div class="muted" style="margin-top:12px;line-height:1.6">
+            Метод: канали з <b>5–75 тис. підписників</b> (великі відсіюються — їхні перегляди це просто інерція підписників),
+            відео не старші за вказаний термін, ключова метрика — <b>перегляди ÷ підписники</b>. Якщо канал ховає підписників,
+            відео приймається лише за понад 50 000 переглядів.
+          </div>
+        </div>
+        <div class="card">
+          <h2>Стан</h2>
+          <div id="rdStatus" class="muted">Готово до запуску. Запуск триває від 20 секунд до кількох хвилин — залежно від кількості запитів.</div>
+          <div id="rdProgress" style="margin-top:12px"></div>
+        </div>
+      </div>
+      <div id="rdResults" style="margin-top:16px"></div>
+    </section>
+
+    <!-- ================= ВІДЕО ================= -->
+    <section class="view" id="view-video">
+      <h1>Відео-лаб</h1>
+      <p class="sub">Розбір упаковки конкретного відео: чому зайшло і як зробити краще.</p>
+      <div class="card" style="margin-bottom:16px">
+        <div class="row"><input id="vidUrl" placeholder="https://youtube.com/watch?v=..." style="flex:3">
+          <select id="vidProvider" style="flex:1.2"></select>
+          <input id="vidModel" style="flex:1" placeholder="модель (необовʼязково)">
+          <button class="btn-sm" id="btnVideoReal" title="Точні цифри, крива утримання й темпоритм мовлення — локально, без ключа">Реальні дані</button>
+          <button class="btn-primary" id="btnVideo">Розібрати</button></div>
+      </div>
+      <div id="vidResult" class="grid" style="gap:16px"></div>
+    </section>
+
+    <!-- ================= ПАЙПЛАЙН ================= -->
+    <section class="view" id="view-pipeline">
+      <h1>Пайплайн ніш</h1>
+      <p class="sub">Перетягуйте картки між колонками. Експорт звіту — у Markdown, CSV або JSON.</p>
+      <div class="row" style="margin-bottom:14px">
+        <button class="btn-sm" data-export="md">Експорт Markdown</button>
+        <button class="btn-sm" data-export="csv">Експорт CSV</button>
+        <button class="btn-sm" data-export="json">Експорт JSON</button>
+        <span class="muted" id="pipeCount"></span>
+      </div>
+      <div class="kanban" id="kanban"></div>
+    </section>
+
+    <!-- ================= ІСТОРІЯ ================= -->
+    <section class="view" id="view-history">
+      <h1>Історія запусків</h1>
+      <p class="sub">Кожне полювання зберігається локально разом зі статистикою витрат і квоти.</p>
+      <div class="card" style="padding:0;overflow:hidden"><div style="max-height:70vh;overflow:auto"><table id="histTable"></table></div></div>
+    </section>
+
+    <!-- ================= ПРОВАЙДЕРИ ================= -->
+    <section class="view" id="view-providers">
+      <h1>Провайдери моделей</h1>
+      <p class="sub">Понад 30 готових ендпоінтів. Усі запити йдуть через локальний сервер — ключі не потрапляють у браузер і нікуди не надсилаються, крім самого провайдера.</p>
+      <div class="row" style="margin-bottom:14px">
+        <input id="provSearch" placeholder="Пошук провайдера" style="max-width:260px">
+        <select id="provCat" style="max-width:220px"></select>
+        <label class="switch" style="margin:0"><input type="checkbox" id="provOnlyReady"><span class="track"></span><span class="muted">Тільки налаштовані</span></label>
+        <button class="btn-sm" id="btnAddProvider">+ Додати свого провайдера</button>
+        <span class="muted" id="provCount"></span>
+      </div>
+      <div class="prov-list" id="provList"></div>
+    </section>
+
+    <!-- ================= НАЛАШТУВАННЯ ================= -->
+    <section class="view" id="view-settings">
+      <h1>Налаштування</h1>
+      <p class="sub">Маршрутизація моделей, параметри запуску, ваги оцінювання, персони та доступ до YouTube Data API.</p>
+      <div class="grid g2">
+        <div class="card"><h2>Маршрутизація моделей</h2>
+          <label class="switch" style="margin-bottom:12px"><input type="checkbox" id="rtAuto"><span class="track"></span><span class="muted">Автовибір (перший налаштований провайдер)</span></label>
+          <div id="routingBox" class="grid" style="gap:11px"></div>
+        </div>
+        <div class="card"><h2>Джерело реальних даних YouTube</h2>
+          <div class="field"><label>Режим</label><select id="ytMode">
+            <option value="auto">Автоматично — yt-dlp, якщо є; інакше API</option>
+            <option value="ytdlp">yt-dlp — без ключа й без квоти</option>
+            <option value="api">YouTube Data API — потрібен ключ</option>
+            <option value="both">Гібрид: yt-dlp + API (запасний шлях)</option>
+            <option value="off">Вимкнено — лише міркування моделі</option>
+          </select></div>
+          <div class="src-box" id="srcBox">
+            <div class="src-row"><span>yt-dlp</span><b id="srcYtdlp">перевіряю…</b></div>
+            <div class="src-row"><span>Кеш даних</span><b id="srcCache">—</b></div>
+            <div class="src-row"><span>Квота API</span><b id="srcQuota">—</b></div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <button class="btn-sm" id="btnSrcUpdate">Оновити yt-dlp</button>
+            <button class="btn-sm" id="btnSrcCache">Очистити кеш</button>
+          </div>
+          <div class="field" style="margin-top:14px"><label>Ключ YouTube Data API v3 (потрібен лише для режимів «API» і «Гібрид»)</label><input id="ytKey" type="password" placeholder="AIza..."></div>
+          <div class="row"><select id="ytRegion" style="flex:1"></select><select id="ytHl" style="flex:1"></select></div>
+          <div class="field" style="margin-top:12px"><label>Глибина вибірки на нішу</label><input id="ytSample" type="number" min="5" max="25" value="12"></div>
+          <div class="muted" style="line-height:1.6">Як отримати ключ: console.cloud.google.com → новий проєкт → APIs &amp; Services → Library → «YouTube Data API v3» → Enable → Credentials → Create credentials → API key. Безкоштовно 10 000 юнітів на добу (один пошук ≈ 100 юнітів).</div>
+          <div class="row" style="margin-top:12px"><button class="btn-sm" id="btnYtQuota">Перевірити квоту</button><span class="muted" id="ytQuotaInfo"></span></div>
+        </div>
+      </div>
+      <div class="grid g2" style="margin-top:16px">
+        <div class="card"><h2>Параметри запуску за замовчуванням</h2><div class="grid g2" id="runParams" style="gap:12px"></div></div>
+        <div class="card"><h2>Ваги оцінювання</h2><div class="grid" id="weightsBox" style="gap:10px"></div>
+          <div class="row" style="margin-top:12px"><button class="btn-sm" id="btnPresetFaceless">Пресет: канал без обличчя</button><button class="btn-sm" id="btnPresetHighRpm">Пресет: високий RPM</button><button class="btn-sm" id="btnPresetBeginner">Пресет: для новачка</button></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px"><h2>Персони-агенти</h2><div class="grid" id="personaBox" style="gap:10px"></div></div>
+      <div class="card" style="margin-top:16px"><h2>Небезпечна зона</h2>
+        <div class="row"><button class="btn btn-danger btn-sm" id="btnReset">Скинути всі налаштування</button>
+        <button class="btn btn-danger btn-sm" id="btnClearNiches">Очистити пайплайн</button></div>
+      </div>
+      <div class="row" style="margin-top:18px"><button class="btn-primary" id="btnSaveSettings">Зберегти налаштування</button><span class="muted" id="settingsStatus"></span></div>
+    </section>
+  </main>
+</div>
+
+<div class="modal" id="modal"><div class="box"><button class="btn btn-sm close" id="modalClose">Закрити</button><div id="modalBody"></div></div></div>
+<div class="toasts" id="toasts"></div>
+<script type="module" src="/app.js"></script>
+</body>
+</html>

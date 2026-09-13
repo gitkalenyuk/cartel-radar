@@ -1,0 +1,14 @@
+{
+  "name": "niche-radar",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Niche Radar — пошуковик ніш для YouTube з 30+ LLM-провайдерами",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs --dev"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
