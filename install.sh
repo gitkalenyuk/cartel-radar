@@ -24,9 +24,17 @@ if [ ! -s "$SRC/bin/yt-dlp" ]; then
 fi
 
 echo "▸ Копіюю файли застосунку…"
+# чищу попередню збірку: інакше архіви з dist/ з попередніх запусків
+# лишаються всередині застосунку й роздувають його в рази
+if [ -d "$DEST" ]; then
+  find "$DEST" -maxdepth 2 -name "dist" -type d -prune -exec rm -rf {} + 2>/dev/null || true
+  find "$DEST" -maxdepth 2 -name ".github" -type d -prune -exec rm -rf {} + 2>/dev/null || true
+  find "$DEST" -maxdepth 2 -name "*.zip" -delete 2>/dev/null || true
+fi
 mkdir -p "$DEST"
 rsync -a --delete \
   --exclude '/data/' --exclude 'node_modules/' --exclude '.git/' --exclude '.DS_Store' \
+  --exclude '/dist/' --exclude '/.github/' --exclude '*.zip' \
   "$SRC/" "$DEST/"
 mkdir -p "$DEST/data"
 
@@ -79,6 +87,7 @@ rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 rsync -a --delete \
   --exclude '/data/' --exclude 'node_modules/' --exclude '.git/' --exclude '.DS_Store' \
+  --exclude '/dist/' --exclude '/.github/' --exclude '*.zip' \
   "$SRC/" "$APP/Contents/Resources/app/"
 mkdir -p "$APP/Contents/Resources/app/data"
 
