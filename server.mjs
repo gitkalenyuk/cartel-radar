@@ -201,12 +201,29 @@ export function createServer() {
       // ---------------- джерела реальних даних ----------------
       if (p === "/api/sources" && req.method === "GET") {
         const cfg = await loadConfig();
+        const info = REALS.sourceInfo(cfg);
         return send(res, 200, {
-          ...REALS.sourceInfo(cfg),
+          ...info,
           modes: REALS.MODES,
           cache: YD.cacheStats(),
           quota: quotaState(),
+          // якщо yt-dlp не знайдено — показуємо, де саме ми його шукали,
+          // щоб причину було видно одразу, а не вгадувати
+          ytdlpSearched: info.ytdlp ? undefined : YD.searchedBinPaths(),
+          ytdlpDownloadURL: YD.ytdlpDownloadURL(),
         });
+      }
+
+      // запасний шлях: якщо yt-dlp не знайшовся (невдале завантаження під час
+      // встановлення, антивірус, нова система) — тягнемо його самі
+      if (p === "/api/sources/install-ytdlp" && req.method === "POST") {
+        try {
+          const result = await YD.installYtdlp();
+          console.log("  yt-dlp завантажено:", result.path, result.version || "");
+          return send(res, 200, { ok: true, ...result });
+        } catch (e) {
+          return send(res, 200, { ok: false, error: String(e.message || e) });
+        }
       }
 
       if (p === "/api/sources/update" && req.method === "POST") {
@@ -420,7 +437,25 @@ async function listenWithFallback(server, port, attempts = 12) {
   throw new Error("Не вдалося знайти вільний порт");
 }
 
-const isMain = process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
+/**
+ * Чи запущено цей файл напряму (а не імпортовано).
+ *
+ * Порівнювати шляхи «як є» не можна: якщо шлях проходить через символічне
+ * посилання (на macOS /tmp — це посилання на /private/tmp, у збірках Electron
+ * буває те саме), то fileURLToPath віддає вже розв'язаний шлях, а
+ * path.resolve(process.argv[1]) — ні. Вони не збігаються, сервер мовчки
+ * завершується з кодом 0 і не робить нічого: вікно відкривається, а
+ * застосунок порожній. Тому зводимо обидва шляхи до справжніх.
+ */
+const isMain = await (async () => {
+  if (!process.argv[1]) return false;
+  const self = fileURLToPath(import.meta.url);
+  const entry = path.resolve(process.argv[1]);
+  if (self === entry) return true;
+  const real = async (p) => { try { return await fs.realpath(p); } catch { return p; } };
+  return (await real(self)) === (await real(entry));
+})();
+
 if (isMain) {
   await ensureDataDir();
   // Версію yt-dlp з’ясовуємо одразу — інакше інтерфейс показує «?» до першого пошуку

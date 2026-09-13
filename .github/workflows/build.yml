@@ -70,6 +70,38 @@ jobs:
         shell: bash
         run: bash desktop/windows/build-portable.sh
 
+      # ── Запобіжник ──────────────────────────────────────────────────────
+      # У версії 1.0.1 застосунок поїхав до людей без робочих даних: yt-dlp
+      # лежав у <resources>/bin, а сервер шукав його в <resources>/app/bin.
+      # Тепер збірка ПАДАЄ, якщо бінарника немає там, де його очікує сервер,
+      # або якщо сервер його не бачить. Краще зупинити реліз, ніж віддати
+      # користувачам порожній застосунок.
+      - name: Перевірити, що yt-dlp долетів у збірку
+        if: matrix.artifact != 'windows'
+        shell: bash
+        run: |
+          set -e
+          case "${{ matrix.artifact }}" in
+            macos)  APP="dist/mac-arm64/Cartel Radar.app/Contents/Resources" ;;
+            linux)  APP="dist/linux-unpacked/resources" ;;
+          esac
+          echo "перевіряю $APP/bin"
+          ls -la "$APP/bin" || { echo "::error::Теки bin немає у збірці"; exit 1; }
+          test -x "$APP/bin/yt-dlp" || { echo "::error::yt-dlp відсутній або не виконуваний"; exit 1; }
+
+          echo "перевіряю, що сервер із цієї збірки справді бачить yt-dlp"
+          export CARTEL_RADAR_DATA="$(mktemp -d)/data"
+          node "$APP/app/server.mjs" --port 8899 &
+          SRV=$!
+          for i in $(seq 1 30); do sleep 1; curl -sf -m 3 http://127.0.0.1:8899/api/health >/dev/null && break; done
+          RESP=$(curl -sf -m 5 http://127.0.0.1:8899/api/sources)
+          kill $SRV 2>/dev/null || true
+          echo "$RESP"
+          case "$RESP" in
+            *'"ytdlp":true'*) echo "OK: збірка бачить yt-dlp" ;;
+            *) echo "::error::Сервер у зібраній програмі НЕ бачить yt-dlp. Саме ця помилка зламала реліз 1.0.1."; exit 1 ;;
+          esac
+
       - name: Завантажити результати
         uses: actions/upload-artifact@v4
         with:

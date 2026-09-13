@@ -57,6 +57,9 @@ export function initSettings() {
     await refreshSources();
   });
 
+  // запасний шлях: yt-dlp не знайшовся — тягнемо його в теку даних
+  document.getElementById("btnYtdlpInstall")?.addEventListener("click", installYtdlpHere);
+
   document.getElementById("btnSrcCache")?.addEventListener("click", async () => {
     if (!confirm("Очистити кеш зібраних даних YouTube?")) return;
     const r = await api.post("/api/sources/clear-cache", {});
@@ -106,7 +109,56 @@ export async function refreshSources() {
         ? `ключ є, використано ${s.quota?.used ?? 0} з ${s.quota?.dailyLimit ?? 10000}`
         : "ключа немає";
     }
+
+    // yt-dlp немає — це головна причина, чому радар не дає результатів.
+    // Показуємо це прямо, з кнопкою, а не лишаємо користувача з порожнім екраном.
+    const warn = document.getElementById("srcYtdlpWarn");
+    if (warn) warn.style.display = s.ytdlp ? "none" : "block";
+    if (!s.ytdlp) {
+      const searched = document.getElementById("ytdlpSearched");
+      if (searched && s.ytdlpSearched) searched.textContent = s.ytdlpSearched.join("\n");
+      if (state.sourcesMissingBanner !== false) showYtdlpBannerOnce();
+    }
   } catch { /* стан джерела не критичний для роботи */ }
+}
+
+/** Одноразове попередження на дашборді: без yt-dlp радар нічого не знайде. */
+function showYtdlpBannerOnce() {
+  state.sourcesMissingBanner = false;
+  const host = document.getElementById("view-dashboard");
+  if (!host || document.getElementById("ytdlpDashWarn")) return;
+  const box = document.createElement("div");
+  box.id = "ytdlpDashWarn";
+  box.style.cssText = "margin:0 0 18px;padding:14px 18px;border:1px solid #ffb84d55;border-radius:14px;background:#ffb84d12;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap";
+  box.innerHTML =
+    '<div><b style="color:#ffb84d">Реальні дані вимкнено: не знайдено yt-dlp</b>' +
+    '<div style="margin-top:4px;font-size:13px;color:var(--dim)">Без нього радар, аналіз каналу й відео-лаб не матимуть цифр із YouTube. Завантажте його однією кнопкою — це безкоштовно.</div></div>' +
+    '<button class="btn-sm" id="btnYtdlpInstallDash" style="background:#ffb84d;color:#1a1204;font-weight:600">Завантажити yt-dlp</button>';
+  host.prepend(box);
+  box.querySelector("#btnYtdlpInstallDash").addEventListener("click", installYtdlpHere);
+}
+
+/** Ставить yt-dlp у теку даних застосунку — туди писати можна завжди. */
+async function installYtdlpHere(ev) {
+  const btn = ev.currentTarget;
+  const status = document.getElementById("ytdlpInstallStatus");
+  const say = (t) => { if (status) status.textContent = t; };
+  btn.disabled = true;
+  const original = btn.textContent;
+  btn.textContent = "Завантажую…";
+  say("Тягну yt-dlp з офіційного релізу, це кілька десятків мегабайтів…");
+  try {
+    const r = await api.post("/api/sources/install-ytdlp", {});
+    if (!r.ok) throw new Error(r.error || "невідома помилка");
+    say(`Готово: ${r.version || "yt-dlp"} — реальні дані увімкнено`);
+    document.getElementById("ytdlpDashWarn")?.remove();
+    await refreshSources();
+    if (window.toast) toast("yt-dlp встановлено", "ok");
+  } catch (e) {
+    say("Не вдалося: " + (e.message || e) + ". Спробуйте ще раз або завантажте вручну з github.com/yt-dlp/yt-dlp/releases");
+    btn.disabled = false;
+    btn.textContent = original;
+  }
 }
 
 export function renderSettings() {

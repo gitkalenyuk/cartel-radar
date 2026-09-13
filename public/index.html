@@ -286,6 +286,20 @@
             <button class="btn-sm" id="btnSrcUpdate">Оновити yt-dlp</button>
             <button class="btn-sm" id="btnSrcCache">Очистити кеш</button>
           </div>
+          <div id="srcYtdlpWarn" style="display:none;margin-top:12px;padding:12px 14px;border:1px solid #ffb84d55;border-radius:12px;background:#ffb84d12">
+            <b style="color:#ffb84d">yt-dlp не знайдено — реальні дані не працюватимуть</b>
+            <p style="margin:8px 0 10px;font-size:13px;line-height:1.55;color:var(--dim)">
+              yt-dlp — це безкоштовний локальний двигун, який тягне справжні цифри з YouTube без ключа й без квоти.
+              Зазвичай він ставиться разом із застосунком. Якщо завантаження під час встановлення не вдалося
+              (немає інтернету, антивірус, корпоративна мережа) — завантажте його зараз однією кнопкою.
+            </p>
+            <button class="btn-sm" id="btnYtdlpInstall" style="background:#ffb84d;color:#1a1204;font-weight:600">Завантажити yt-dlp</button>
+            <div id="ytdlpInstallStatus" style="margin-top:8px;font-size:13px;color:var(--dim)"></div>
+            <details style="margin-top:10px">
+              <summary style="cursor:pointer;font-size:12px;color:var(--dim)">Де саме застосунок шукав yt-dlp</summary>
+              <div id="ytdlpSearched" style="margin-top:6px;font-size:11px;color:var(--dim);word-break:break-all"></div>
+            </details>
+          </div>
           <div class="field" style="margin-top:14px"><label>Ключ YouTube Data API v3 (потрібен лише для режимів «API» і «Гібрид»)</label><input id="ytKey" type="password" placeholder="AIza..."></div>
           <div class="row"><select id="ytRegion" style="flex:1"></select><select id="ytHl" style="flex:1"></select></div>
           <div class="field" style="margin-top:12px"><label>Глибина вибірки на нішу</label><input id="ytSample" type="number" min="5" max="25" value="12"></div>

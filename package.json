@@ -1,6 +1,6 @@
 {
   "name": "cartel-radar",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Cartel Radar — локальний пошук ніш на YouTube: реальні дані через yt-dlp або YouTube Data API, кратність до медіани, радар свіжих проривів.",
   "license": "MIT",
   "author": "YT CARTEL",
