@@ -61,8 +61,9 @@ jobs:
         if: matrix.artifact == 'linux'
         run: npx electron-builder --linux --publish never
 
+      # архів збирається на Linux-раннері: вміст той самий, але там гарантовано є zip
       - name: Портативна версія для Windows
-        if: matrix.artifact == 'windows'
+        if: matrix.artifact == 'linux'
         shell: bash
         run: bash desktop/windows/build-portable.sh
 

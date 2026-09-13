@@ -51,7 +51,9 @@ make_zip() {
     # Windows-раннер: PowerShell вміє те саме
     WIN_SRC="$(cygpath -w "$WORK/$NAME" 2>/dev/null || echo "$WORK/$NAME")"
     WIN_OUT="$(cygpath -w "$OUT" 2>/dev/null || echo "$OUT")"
-    powershell.exe -NoProfile -Command "Compress-Archive -Path '"'$WIN_SRC'"' -DestinationPath '"'$WIN_OUT'"' -Force"
+    # шляхи передаємо змінними середовища: вкладені лапки у зв'язці
+    # Git Bash + PowerShell псуються, і PowerShell отримує сам текст '$WIN_SRC'
+    MSYS_NO_PATHCONV=1 PS_SRC="$WIN_SRC" PS_OUT="$WIN_OUT" powershell.exe -NoProfile -Command 'Compress-Archive -Path $env:PS_SRC -DestinationPath $env:PS_OUT -Force'
   else
     echo "✖ Ні zip, ні PowerShell — архів не створити"; exit 1
   fi
