@@ -29,8 +29,8 @@
 
 <h2>macOS</h2>
 <ol>
-  <li>Завантажте <code>Cartel-Radar-1.0.1-macOS.zip</code> зі <a href="https://github.com/gitkalenyuk/cartel-radar/releases/latest" target="_blank" rel="noopener">сторінки релізів</a>.</li>
-  <li>Розпакуйте й перетягніть <b>Cartel Radar.app</b> у папку <b>Програми</b>.</li>
+  <li>Завантажте <code>Cartel.Radar.1.0.1-arm64.dmg</code> зі <a href="https://github.com/gitkalenyuk/cartel-radar/releases/latest" target="_blank" rel="noopener">сторінки релізів</a>.</li>
+  <li>Відкрийте dmg і перетягніть <b>Cartel Radar</b> у папку <b>Програми</b>.</li>
   <li>Перший запуск: клацніть правою кнопкою на застосунку → <b>Відкрити</b> → у діалозі ще раз <b>Відкрити</b>.</li>
   <li>Якщо система блокує: <b>Системні налаштування → Приватність і безпека</b> → унизу «Все одно відкрити».</li>
 </ol>
@@ -40,13 +40,14 @@
 <h2>Windows</h2>
 <h3>Портативна версія (нічого не встановлює)</h3>
 <ol>
-  <li>Завантажте <code>Cartel-Radar-1.0.1-Windows-Portable.zip</code>.</li>
+  <li>Завантажте <code>Cartel-Radar-1.0.1-Windows-Portable.zip</code> (полегшений, потрібен Node.js) або <code>Cartel.Radar.Setup.1.0.1.exe</code> (звичайний інсталятор).</li>
   <li>Розпакуйте у будь-яку папку, наприклад <code>C:\CartelRadar</code>. Саме розпакуйте — не запускайте зсередини архіву.</li>
   <li>Двічі клацніть <b>Cartel Radar.bat</b>. Відкриється браузер із застосунком.</li>
 </ol>
 <p>Щоб видалити — просто видаліть папку. Нічого не залишається в системі.</p>
 <h3>Інсталятор</h3>
-<p class="lead">Збирається автоматично на GitHub Actions (файл <code>.github/workflows/build.yml</code>) і з'являється серед файлів релізу як <code>Cartel-Radar-Setup-1.0.0.exe</code>. Якщо його немає на сторінці релізу — користуйтеся портативною версією: вона робить те саме.</p>
+<p>Файл <code>Cartel.Radar.Setup.1.0.1.exe</code> — звичайний інсталятор із меню «Пуск» і ярликом на робочому столі. Є також портативна Electron-збірка <code>Cartel.Radar.1.0.1.exe</code>, яка працює без Node.js.</p>
+<p class="lead" style="font-size:14px">Усі збірки збираються автоматично на GitHub Actions — файл <code>.github/workflows/build.yml</code>.</p>
 
 <h2>Де зберігаються ваші дані</h2>
 <table>
