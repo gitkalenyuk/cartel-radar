@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import { loadConfig, patchConfig, defaultConfig, ensureDataDir, migrateLegacyData, DATA_DIR } from "./lib/config.mjs";
 import { listProviders, resolveProvider, PROVIDER_PRESETS } from "./lib/providers.mjs";
 import { testProvider, listModels, pickDefaultModel } from "./lib/llm.mjs";
-import { createJob, getJob, listJobs, subscribe, finishJob, failJob, cancelJob } from "./lib/jobs.mjs";
+import { createJob, getJob, listJobs, subscribe, finishJob, failJob, cancelJob, pool } from "./lib/jobs.mjs";
 import { runHunt, runChannelAnalysis, runGapScan, runVideoLab, runThumbnailLab } from "./lib/engine.mjs";
 import { listNiches, addNiche, updateNiche, deleteNiche, listRuns, getRun, toMarkdown, toCSV } from "./lib/store.mjs";
 import { quotaState } from "./lib/youtube.mjs";
@@ -301,28 +301,46 @@ export function createServer() {
         if (!queries.length) return sendErr(res, 400, "Потрібен хоча б один пошуковий запит");
         const perQuery = Math.min(30, Number(body.perQuery) || 12);
         try {
-          const candidates = [];
+          // Кілька запитів майже завжди перетинаються: те саме відео знаходиться
+          // двічі-тричі. Спершу збираємо унікальні ідентифікатори (пам'ятаємо,
+          // який запит знайшов відео першим), і лише потім тягнемо деталі —
+          // пакетами, а не по одному відео за раз.
+          const found = new Map();
           const failedQueries = [];
           for (const q of queries) {
             try {
               const res2 = await REALS.searchVideos(cfg, { q, maxResults: perQuery });
               for (const v of res2) {
-                const [det] = await YD.videoDetails([v.videoId]).catch(() => [null]);
-                if (!det) continue;
-                candidates.push({
-                  videoId: det.id, title: det.title, url: det.url, views: det.views, duration: det.duration,
-                  publishedAt: det.date, channel: det.channel, channelId: det.channelId,
-                  channelUrl: det.channelUrl, subscribers: det.subscribers, query: q,
-                });
+                if (v.videoId && !found.has(v.videoId)) found.set(v.videoId, q);
               }
             } catch (e) { failedQueries.push({ query: q, error: String(e.message || e) }); }
+          }
+
+          const uniqueIds = [...found.keys()];
+          const CHUNK = 12;
+          const chunks = [];
+          for (let i = 0; i < uniqueIds.length; i += CHUNK) chunks.push(uniqueIds.slice(i, i + CHUNK));
+          const detailed = await pool(chunks, 3, async (chunk) => YD.videoDetails(chunk).catch(() => []));
+
+          const candidates = [];
+          const seenVideos = new Set();
+          for (const batch of detailed) {
+            for (const det of batch || []) {
+              if (!det || !det.id || seenVideos.has(det.id)) continue;
+              seenVideos.add(det.id);
+              candidates.push({
+                videoId: det.id, title: det.title, url: det.url, views: det.views, duration: det.duration,
+                publishedAt: det.date, channel: det.channel, channelId: det.channelId,
+                channelUrl: det.channelUrl, subscribers: det.subscribers, query: found.get(det.id) || "",
+              });
+            }
           }
           const { breakouts, competitors } = AN.filterAndRankRadar(candidates, {
             maxAgeDays: Number(body.maxAgeDays) || 365,
             minSubs: Number(body.minSubs) || 5000,
             maxSubs: Number(body.maxSubs) || 75000,
           });
-          return send(res, 200, { ok: true, queries, candidates: candidates.length, breakouts, competitors, failedQueries });
+          return send(res, 200, { ok: true, queries, found: uniqueIds.length, candidates: candidates.length, breakouts, competitors, failedQueries });
         } catch (e) { return sendErr(res, 200, String(e.message || e)); }
       }
 
