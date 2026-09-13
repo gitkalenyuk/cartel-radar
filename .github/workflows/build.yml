@@ -89,18 +89,39 @@ jobs:
           ls -la "$APP/bin" || { echo "::error::Теки bin немає у збірці"; exit 1; }
           test -x "$APP/bin/yt-dlp" || { echo "::error::yt-dlp відсутній або не виконуваний"; exit 1; }
 
-          echo "перевіряю, що сервер із цієї збірки справді бачить yt-dlp"
           export CARTEL_RADAR_DATA="$(mktemp -d)/data"
           node "$APP/app/server.mjs" --port 8899 &
           SRV=$!
-          for i in $(seq 1 30); do sleep 1; curl -sf -m 3 http://127.0.0.1:8899/api/health >/dev/null && break; done
-          RESP=$(curl -sf -m 5 http://127.0.0.1:8899/api/sources)
-          kill $SRV 2>/dev/null || true
-          echo "$RESP"
+          trap 'kill $SRV 2>/dev/null || true' EXIT
+          for i in $(seq 1 40); do sleep 1; curl -sf -m 3 http://127.0.0.1:8899/api/health >/dev/null && break; done
+
+          echo "перевіряю, що сервер із цієї збірки бачить yt-dlp"
+          RESP=$(curl -s -m 8 http://127.0.0.1:8899/api/sources)
           case "$RESP" in
-            *'"ytdlp":true'*) echo "OK: збірка бачить yt-dlp" ;;
-            *) echo "::error::Сервер у зібраній програмі НЕ бачить yt-dlp. Саме ця помилка зламала реліз 1.0.1."; exit 1 ;;
+            *'"ytdlp":true'*) echo "  OK: бачить yt-dlp" ;;
+            *) echo "::error::Сервер у зібраній програмі НЕ бачить yt-dlp. Саме ця помилка зламала реліз 1.0.1."; echo "$RESP"; exit 1 ;;
           esac
+
+          # Кожен файл інтерфейсу мусить бути в збірці й віддаватися як JavaScript.
+          # У 1.0.2 файл public/data/markets.js не потрапив у репозиторій (його
+          # випадково виключав .gitignore), і сторінка відкривалася мертвою:
+          # браузер відмовлявся виконувати модуль, який прийшов як text/html.
+          echo "перевіряю, що всі файли інтерфейсу на місці"
+          BROKEN=0
+          while read -r rel; do
+            [ -n "$rel" ] || continue
+            CT=$(curl -s -o /dev/null -w '%{content_type}' -m 5 "http://127.0.0.1:8899/$rel")
+            case "$CT" in
+              *javascript*) ;;
+              *) echo "::error::У збірці немає /$rel — сервер віддав '$CT' замість JavaScript. Інтерфейс буде мертвий."; BROKEN=1 ;;
+            esac
+          done < <(cd public && find . -name '*.js' | sed 's|^\./||' | sort)
+          [ "$BROKEN" = "0" ] || exit 1
+          echo "  OK: усі файли інтерфейсу віддаються"
+
+          # і головна сторінка теж
+          curl -sf -m 5 http://127.0.0.1:8899/ | grep -q 'Cartel Radar' || { echo "::error::Головна сторінка не відкривається"; exit 1; }
+          echo "  OK: головна сторінка відкривається"
 
       - name: Завантажити результати
         uses: actions/upload-artifact@v4
