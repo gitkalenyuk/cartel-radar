@@ -93,7 +93,7 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
 <dict>
   <key>CFBundleName</key><string>Cartel Radar</string>
   <key>CFBundleDisplayName</key><string>Cartel Radar</string>
-  <key>CFBundleIdentifier</key><string>local.nicheradar.app</string>
+  <key>CFBundleIdentifier</key><string>local.cartelradar.app</string>
   <key>CFBundleVersion</key><string>1.0.0</string>
   <key>CFBundleShortVersionString</key><string>1.0.0</string>
   <key>CFBundlePackageType</key><string>APPL</string>

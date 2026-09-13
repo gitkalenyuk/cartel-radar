@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Встановлення — Cartel Radar</title>
+<meta name="description" content="Як встановити Cartel Radar на macOS і Windows.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><span class="mark">CR</span><span>Cartel Radar<small>довідка</small></span></a>
+  <nav class="main">
+    <a href="index.html">Головна</a>
+    <a href="install.html" class="on">Встановлення</a>
+    <a href="providers.html">Провайдери</a>
+    <a href="youtube.html">Дані YouTube</a>
+    <a href="methodology.html">Методологія</a>
+  </nav>
+</div></header>
+<main><div class="wrap">
+
+<h1>Встановлення</h1>
+<p class="lead">Застосунок безкоштовний, працює локально й не потребує реєстрації. Потрібен лише Node.js 18+ — його ставлять один раз.</p>
+
+<h2>Спільний крок для обох систем</h2>
+<p>Встановіть <b>Node.js LTS</b>: <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a> → завантажити → «Далі-Далі-Готово». Нічого налаштовувати не треба.</p>
+<div class="warnbox">Перевірка: відкрийте термінал (macOS) або командний рядок (Windows) і виконайте <code>node -v</code>. Має показати <code>v18</code> або вище.</div>
+
+<h2>macOS</h2>
+<ol>
+  <li>Завантажте <code>Cartel-Radar-1.0.0-macOS.zip</code> зі <a href="https://github.com/gitkalenyuk/cartel-radar/releases/latest" target="_blank" rel="noopener">сторінки релізів</a>.</li>
+  <li>Розпакуйте й перетягніть <b>Cartel Radar.app</b> у папку <b>Програми</b>.</li>
+  <li>Перший запуск: клацніть правою кнопкою на застосунку → <b>Відкрити</b> → у діалозі ще раз <b>Відкрити</b>.</li>
+  <li>Якщо система блокує: <b>Системні налаштування → Приватність і безпека</b> → унизу «Все одно відкрити».</li>
+</ol>
+<p>Застосунок відкриється у власному вікні — це не браузерна вкладка. Закривається звичайним <b>⌘Q</b>; локальний сервер при цьому зупиняється сам.</p>
+<p>Якщо ви клонували код із GitHub, замість архіву можна виконати <code>./install.sh</code> — скрипт сам завантажить yt-dlp, збере застосунок і зробить ярлик на Робочому столі.</p>
+
+<h2>Windows</h2>
+<h3>Портативна версія (нічого не встановлює)</h3>
+<ol>
+  <li>Завантажте <code>Cartel-Radar-1.0.0-Windows-Portable.zip</code>.</li>
+  <li>Розпакуйте у будь-яку папку, наприклад <code>C:\CartelRadar</code>. Саме розпакуйте — не запускайте зсередини архіву.</li>
+  <li>Двічі клацніть <b>Cartel Radar.bat</b>. Відкриється браузер із застосунком.</li>
+</ol>
+<p>Щоб видалити — просто видаліть папку. Нічого не залишається в системі.</p>
+<h3>Інсталятор</h3>
+<p class="lead">Збирається автоматично на GitHub Actions (файл <code>.github/workflows/build.yml</code>) і з'являється серед файлів релізу як <code>Cartel-Radar-Setup-1.0.0.exe</code>. Якщо його немає на сторінці релізу — користуйтеся портативною версією: вона робить те саме.</p>
+
+<h2>Де зберігаються ваші дані</h2>
+<table>
+<tr><th>Система</th><th>Тека</th></tr>
+<tr><td>macOS</td><td><code>~/Library/Application Support/CartelRadar/data</code></td></tr>
+<tr><td>Windows</td><td><code>%APPDATA%\CartelRadar\data</code></td></tr>
+<tr><td>Linux</td><td><code>~/.local/share/CartelRadar/data</code></td></tr>
+</table>
+<p>Там лежать <code>config.json</code> (ключі та налаштування, доступ лише власнику), ніші, історія запусків і кеш зібраних даних YouTube. Дані <b>не</b> лежать усередині застосунку — тому оновлення не стирають ключі. Якщо ви встановлюєте нову версію, застосунок одноразово перенесе дані зі старих тек.</p>
+
+<h2>Оновлення</h2>
+<p>Завантажте новий архів і замініть застосунок. Дані залишаться на місці. yt-dlp можна оновити зсередини застосунку: <b>Налаштування → Оновити yt-dlp</b>.</p>
+
+<h2>Якщо щось не працює</h2>
+<table>
+<tr><th>Симптом</th><th>Що робити</th></tr>
+<tr><td>«Застосунок пошкоджено» на macOS</td><td>Правий клік → Відкрити. Або <code>xattr -cr "/Applications/Cartel Radar.app"</code> у терміналі.</td></tr>
+<tr><td>Windows: «Node.js not found»</td><td>Встановіть Node.js LTS і перезапустіть <code>Cartel Radar.bat</code>.</td></tr>
+<tr><td>Порт 8787 зайнятий</td><td>Закрийте інше вікно Cartel Radar. Застосунок сам спробує наступні порти.</td></tr>
+<tr><td>Антивірус свариться на <code>yt-dlp.exe</code></td><td>Це відкритий інструмент з github.com/yt-dlp/yt-dlp. Додайте в довірені — без нього не буде безкоштовних даних YouTube.</td></tr>
+</table>
+
+</div></main>
+<footer><div class="wrap">
+  <div>Cartel Radar 1.0.0 · MIT · зроблено для YouTube-каналів</div>
+  <div><a href="https://github.com/gitkalenyuk/cartel-radar">GitHub</a> · <a href="https://t.me/+e_g6IwDlVhg4OGJi">Група</a> · <a href="https://t.me/YT_cartell/242">Чат</a></div>
+</div></footer>
+</body>
+</html>

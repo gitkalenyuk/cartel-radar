@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Провайдери моделей — Cartel Radar</title>
+<meta name="description" content="Навіщо потрібні ключі, які провайдери краще працюють і як підключити локальну модель.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><span class="mark">CR</span><span>Cartel Radar<small>довідка</small></span></a>
+  <nav class="main">
+    <a href="index.html">Головна</a>
+    <a href="install.html">Встановлення</a>
+    <a href="providers.html" class="on">Провайдери</a>
+    <a href="youtube.html">Дані YouTube</a>
+    <a href="methodology.html">Методологія</a>
+  </nav>
+</div></header>
+<main><div class="wrap">
+
+<h1>Провайдери моделей</h1>
+<p class="lead">Застосунок не має власного «мозку» — він думає разом із мовною моделлю, яку ви виберете. Модель працює на серверах провайдера, тому потрібен ключ доступу.</p>
+
+<h2>Що таке ключ і де він живе</h2>
+<p>Ключ — це довгий пароль, який провайдер видає вашому акаунту. Застосунок надсилає його тільки провайдеру, до якого ви звертаєтесь, і зберігає локально у файлі <code>config.json</code> з правами <code>600</code> — читає лише власник комп'ютера. Ключі не йдуть ні до розробника, ні в Telegram, ні в жодну аналітику.</p>
+<div class="note">Ключ ніколи не потрапляє у вікно браузера: запити до моделі робить локальний сервер, а не сторінка.</div>
+
+<h2>Кого вставляти для чого</h2>
+<table>
+<tr><th>Провайдер</th><th>Де взяти ключ</th><th>Коли брати</th><th>Ціна</th></tr>
+<tr><td><b>DeepSeek</b></td><td><a href="https://platform.deepseek.com" target="_blank" rel="noopener">platform.deepseek.com</a></td><td>Масовий аналіз: десятки ніш поспіль. Дуже дешево й добре тримає українську.</td><td>найнижча</td></tr>
+<tr><td><b>Google Gemini</b></td><td><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a></td><td>Швидкі чернетки на Flash, глибокі досьє на Pro. Є безкоштовний ліміт.</td><td>низька / безкоштовно</td></tr>
+<tr><td><b>Groq</b></td><td><a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com</a></td><td>Коли важлива швидкість: відповідь за секунди.</td><td>низька</td></tr>
+<tr><td><b>OpenAI</b></td><td><a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">platform.openai.com</a></td><td>Найпередбачуваніша якість, добра робота зі структурою JSON.</td><td>середня</td></tr>
+<tr><td><b>Anthropic Claude</b></td><td><a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a></td><td>Глибокі досьє й розбір сценаріїв — найсильніший текст.</td><td>висока</td></tr>
+<tr><td><b>OpenRouter</b></td><td><a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a></td><td>Один ключ — десятки моделей. Зручно пробувати різні.</td><td>за моделлю</td></tr>
+<tr><td><b>Mistral</b></td><td><a href="https://console.mistral.ai" target="_blank" rel="noopener">console.mistral.ai</a></td><td>Дешевий європейський варіант.</td><td>низька</td></tr>
+<tr><td><b>Z.ai (GLM)</b></td><td><a href="https://z.ai" target="_blank" rel="noopener">z.ai</a></td><td>Дешевий масовий аналіз, непогана українська.</td><td>низька</td></tr>
+<tr><td><b>Moonshot (Kimi)</b></td><td><a href="https://platform.moonshot.ai" target="_blank" rel="noopener">platform.moonshot.ai</a></td><td>Довгі тексти, великий контекст.</td><td>низька</td></tr>
+<tr><td><b>xAI (Grok)</b></td><td><a href="https://console.x.ai" target="_blank" rel="noopener">console.x.ai</a></td><td>Актуальні теми й тренди.</td><td>середня</td></tr>
+</table>
+
+<h2>Без ключа взагалі: локальні моделі</h2>
+<p>Можна поставити модель собі на комп'ютер і не платити нікому. Застосунок підтримує Ollama, LM Studio, vLLM, llama.cpp та будь-який OpenAI-сумісний ендпоінт.</p>
+<pre><code># приклад: Ollama
+ollama pull llama3.1:8b
+# далі в застосунку: Провайдери → Ollama → http://127.0.0.1:11434</code></pre>
+<p><b>Плюси:</b> безкоштовно, офлайн, дані не покидають комп'ютер. <b>Мінуси:</b> повільніше, слабший аналіз, і для 13B+ моделей потрібно 16+ ГБ оперативної пам'яті.</p>
+
+<h2>Свій ендпоінт</h2>
+<p>Якщо у вас корпоративний шлюз або власний сервер — додайте провайдера вручну: вкажіть базову адресу, шлях до ендпоінта, стиль API (<code>openai</code>, <code>anthropic</code>, <code>gemini</code>, <code>cohere</code>) і назву моделі. Застосунок перевіряє з'єднання кнопкою «Перевірити».</p>
+
+<h2>Ключ не працює — шість типових причин</h2>
+<ol>
+  <li><b>Ключ скопійовано не повністю.</b> Найчастіша причина. Ключі довгі; копіюйте подвійним кліком по всьому рядку.</li>
+  <li><b>Немає доступу саме до цієї моделі.</b> Ключ дійсний, але модель недоступна вашому акаунту — виберіть іншу в списку.</li>
+  <li><b>Вичерпано квоту або ліміт запитів.</b> Зачекайте або зменшіть кількість агентів у налаштуваннях.</li>
+  <li><b>Регіон заблоковано.</b> Деякі провайдери не працюють із певних країн — потрібен інший провайдер.</li>
+  <li><b>Скінчилися гроші на рахунку.</b> Перевірте баланс у кабінеті провайдера.</li>
+  <li><b>Порожня відповідь.</b> Буває в reasoning-моделей, коли ліміт виводу замалий: уся відповідь пішла в «роздуми». Збільшіть ліміт токенів у налаштуваннях.</li>
+</ol>
+<div class="warnbox">Порада з безпеки: якщо ви колись надсилали ключ у чат, листування чи скріншот — краще його відкликати в кабінеті провайдера й створити новий.</div>
+
+</div></main>
+<footer><div class="wrap">
+  <div>Cartel Radar 1.0.0 · MIT · зроблено для YouTube-каналів</div>
+  <div><a href="https://github.com/gitkalenyuk/cartel-radar">GitHub</a> · <a href="https://t.me/+e_g6IwDlVhg4OGJi">Група</a> · <a href="https://t.me/YT_cartell/242">Чат</a></div>
+</div></footer>
+</body>
+</html>

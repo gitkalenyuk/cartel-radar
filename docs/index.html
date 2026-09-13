@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cartel Radar — довідка</title>
+<meta name="description" content="Локальний пошук ніш на YouTube: реальні дані, кратність до медіани, радар свіжих проривів.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><span class="mark">CR</span><span>Cartel Radar<small>довідка</small></span></a>
+  <nav class="main">
+    <a href="index.html" class="on">Головна</a>
+    <a href="install.html">Встановлення</a>
+    <a href="providers.html">Провайдери</a>
+    <a href="youtube.html">Дані YouTube</a>
+    <a href="methodology.html">Методологія</a>
+  </nav>
+</div></header>
+<main><div class="wrap">
+
+<h1>Cartel Radar</h1>
+<p class="lead">Застосунок шукає ніші на YouTube, які ще не зайняті, і доводить вибір реальними цифрами: переглядами, підписниками, швидкістю набору та кривою уваги аудиторії. Усе працює на вашому комп'ютері — ключі нікуди не йдуть, окрім запиту до обраного вами провайдера моделі.</p>
+
+<div class="grid g3">
+  <div class="card"><h3>Реальні дані, а не фантазії</h3><p class="lead" style="font-size:14.5px;margin:0">Дані YouTube збираються локально через вбудований <code>yt-dlp</code> — без ключа й без добової квоти. Офіційний API теж підтримується.</p></div>
+  <div class="card"><h3>38 провайдерів моделей</h3><p class="lead" style="font-size:14.5px;margin:0">Gemini, OpenAI, Anthropic, DeepSeek, Groq, Mistral, Z.ai, Kimi, Grok і локальні Ollama / LM Studio. Можна додати будь-який свій OpenAI-сумісний ендпоінт.</p></div>
+  <div class="card"><h3>Нічого не треба збирати</h3><p class="lead" style="font-size:14.5px;margin:0">Жодної залежності в рантаймі: <code>node server.mjs</code> — і все. Працює на macOS і Windows.</p></div>
+</div>
+
+<h2>Що вміє застосунок</h2>
+<table>
+<tr><th>Розділ</th><th>Що робить</th></tr>
+<tr><td><b>Полювання</b></td><td>Кілька модель-агентів паралельно шукають ніші за вашими критеріями й одразу відсіюють слабкі.</td></tr>
+<tr><td><b>Ранжування</b></td><td>Оцінка 0–10 за дев'ятьма критеріями з вагами. Ви бачите число, а не «мені здається».</td></tr>
+<tr><td><b>Канали</b></td><td>Розбір каналу: хіти, провали, кратність до медіани, швидкість набору, статистика заголовків.</td></tr>
+<tr><td><b>Радар ніш</b></td><td>Свіжі прориви: канали 5–75 тис. підписників, які щойно вирвалися за межі своєї аудиторії.</td></tr>
+<tr><td><b>Gap-аналіз</b></td><td>Що в ніші вже знято, а що просять у коментарях, але ніхто не зробив.</td></tr>
+<tr><td><b>Відео-лаб</b></td><td>Розбір одного відео: точні цифри, крива уваги, темпоритм мовлення, коментарі.</td></tr>
+<tr><td><b>Пайплайн</b></td><td>Воронка від ідеї до «знімаю»: зібрано → перевірено → затверджено.</td></tr>
+<tr><td><b>Досьє</b></td><td>Документ по ніші: 30 ідей відео, формули заголовків, концепти прев'ю, ризики, план на 30 днів.</td></tr>
+</table>
+
+<h2>Скріншоти</h2>
+<figure><img src="assets/screenshot-dashboard.png" alt="Дашборд" onerror="this.closest('figure').style.display='none'"><figcaption>Дашборд: скільки провайдерів налаштовано, стан пайплайну, останні запуски.</figcaption></figure>
+<figure><img src="assets/screenshot-radar.png" alt="Радар ніш" onerror="this.closest('figure').style.display='none'"><figcaption>Радар ніш: свіжі прориви за реальними даними — кратність переглядів до підписників, дата, швидкість набору.</figcaption></figure>
+<figure><img src="assets/screenshot-settings.png" alt="Налаштування" onerror="this.closest('figure').style.display='none'"><figcaption>Налаштування: джерело даних YouTube, маршрутизація моделей, ваги оцінювання.</figcaption></figure>
+
+<h2>З чого почати</h2>
+<ol>
+  <li><a href="install.html">Встановіть застосунок</a> — на macOS або Windows.</li>
+  <li><a href="providers.html">Додайте ключ до моделі</a> — або підключіть локальну модель без ключа.</li>
+  <li><a href="youtube.html">Виберіть джерело даних YouTube</a> — рекомендовано yt-dlp: без ключа й квоти.</li>
+  <li>Відкрийте <b>Радар ніш</b>, впишіть тему й натисніть «Запустити радар».</li>
+  <li>Знайдену нішу відправте в пайплайн і згенеруйте досьє.</li>
+</ol>
+
+<h2>Навіщо взагалі ключі</h2>
+<p>Застосунок сам нічого не вигадує — він думає разом із мовною моделлю. Модель працює на серверах провайдера, тому потрібен ключ. Ключ зберігається у вашому файлі <code>config.json</code> з правами доступу <code>600</code> і надсилається тільки тому провайдеру, чий ключ ви вставили.</p>
+<div class="note"><b>Дані YouTube ключа не потребують.</b> За це відповідає локальний yt-dlp, який уже вбудований у застосунок.</div>
+
+<div class="community">
+  <a href="https://t.me/+e_g6IwDlVhg4OGJi" target="_blank" rel="noopener"><b>Група YT CARTEL</b><span>долучитися до спільноти →</span></a>
+  <a href="https://t.me/YT_cartell/242" target="_blank" rel="noopener"><b>Чат</b><span>поставити питання й обговорити →</span></a>
+</div>
+
+</div></main>
+<footer><div class="wrap">
+  <div>Cartel Radar 1.0.0 · MIT · зроблено для YouTube-каналів</div>
+  <div>
+    <a href="https://github.com/gitkalenyuk/cartel-radar">GitHub</a> ·
+    <a href="https://t.me/+e_g6IwDlVhg4OGJi">Група</a> ·
+    <a href="https://t.me/YT_cartell/242">Чат</a>
+  </div>
+</div></footer>
+</body>
+</html>
