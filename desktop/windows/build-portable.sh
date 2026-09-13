@@ -4,7 +4,10 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-VERSION="$(node -p "require('$ROOT/package.json').version")"
+# версію читаємо текстом, а не через node: на Windows шлях у форматі Git Bash
+# (/d/a/...) для Node-бінарника недосяжний
+VERSION="$(sed -n 's/.*"version": *"\([^"]*\)".*/\1/p' "$ROOT/package.json" | head -1)"
+[ -n "$VERSION" ] || { echo "✖ не вдалося прочитати версію з package.json"; exit 1; }
 NAME="Cartel-Radar-$VERSION-Windows-Portable"
 WORK="$(mktemp -d)"
 OUT="$ROOT/dist/$NAME.zip"
@@ -41,6 +44,18 @@ node server.mjs
 pause
 BAT
 
-( cd "$WORK" && zip -qr "$OUT" "$NAME" )
+make_zip() {
+  if command -v zip >/dev/null 2>&1; then
+    ( cd "$WORK" && zip -qr "$OUT" "$NAME" )
+  elif command -v powershell.exe >/dev/null 2>&1; then
+    # Windows-раннер: PowerShell вміє те саме
+    WIN_SRC="$(cygpath -w "$WORK/$NAME" 2>/dev/null || echo "$WORK/$NAME")"
+    WIN_OUT="$(cygpath -w "$OUT" 2>/dev/null || echo "$OUT")"
+    powershell.exe -NoProfile -Command "Compress-Archive -Path '"'$WIN_SRC'"' -DestinationPath '"'$WIN_OUT'"' -Force"
+  else
+    echo "✖ Ні zip, ні PowerShell — архів не створити"; exit 1
+  fi
+}
+make_zip
 rm -rf "$WORK"
 echo "✓ готово: $OUT ($(du -h "$OUT" | cut -f1))"
